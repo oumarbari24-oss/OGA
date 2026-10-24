@@ -1,0 +1,12 @@
+GYMLOG – iPhone webapp
+
+Bestanden:
+- index.html: de app
+- manifest.json: installatiegegevens
+- sw.js: basis offline-cache
+
+BELANGRIJK:
+Om dit als app op je iPhone-beginscherm te zetten, moeten de bestanden eerst online staan via HTTPS.
+Makkelijke route: upload deze bestanden naar een nieuwe GitHub-repository en zet GitHub Pages aan.
+Open daarna de gepubliceerde HTTPS-link in Safari op je iPhone > Deel > Zet op beginscherm.
+De app bewaart je trainingsgegevens lokaal in de browser op dat apparaat.

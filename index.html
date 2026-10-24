@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GymLog">
+<link rel="manifest" href="manifest.json">
+<title>GymLog – Spiergroei</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1020;--card:#151d31;--muted:#a7b1c7;--accent:#a3e635;--line:#29344d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f7f9fc;font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 16px calc(24px + env(safe-area-inset-bottom));max-width:760px;margin-inline:auto}
+header{padding:24px 2px 16px}h1{margin:0;font-size:30px;letter-spacing:-.8px}header p{margin:6px 0 0;color:var(--muted)}
+nav{display:flex;gap:8px;overflow:auto;padding:4px 0 14px}button,.tab{font:inherit;border:0;border-radius:13px;padding:11px 14px;background:#26314a;color:#f7f9fc;cursor:pointer}.tab.active,button.primary{background:var(--accent);color:#17210a;font-weight:750}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:0 0 13px}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.muted{color:var(--muted);font-size:14px}.daytitle{font-size:20px;margin:0 0 5px}.exercise{padding:14px 0;border-top:1px solid var(--line)}.exercise:first-of-type{border-top:0}.exname{font-weight:700}.sets{color:var(--muted);font-size:13px;margin:4px 0 10px}.inputs{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.inputs label{font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:5px}input{width:82px;background:#0b1020;color:white;border:1px solid #394764;border-radius:10px;padding:10px;font:inherit}input[type=checkbox]{width:21px;height:21px;accent-color:var(--accent)}.done{display:flex;align-items:center;gap:7px;margin-left:auto;color:var(--muted);font-size:13px}.progress{height:8px;background:#28334b;border-radius:8px;overflow:hidden;margin-top:12px}.bar{height:100%;width:0;background:var(--accent);transition:width .2s}.big{font-size:28px;font-weight:800}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid .panel{margin:0}.hide{display:none}.historyitem{border-top:1px solid var(--line);padding:12px 0}.historyitem:first-child{border-top:0}.smallbtn{padding:8px 10px;font-size:13px}.notice{font-size:13px;color:var(--muted);line-height:1.5}
+</style>
+</head>
+<body>
+<header><div class="row"><div><h1>GymLog 💪</h1><p>Jouw trainingsplan voor spiergroei</p></div><span style="font-size:30px">🏋️</span></div></header>
+<nav id="tabs"></nav>
+<main id="workout"></main>
+<section id="progressView" class="hide">
+ <div class="grid">
+  <div class="panel"><div class="muted">Trainingen afgerond</div><div class="big" id="workoutsCount">0</div></div>
+  <div class="panel"><div class="muted">Oefeningen afgevinkt</div><div class="big" id="checksCount">0</div></div>
+ </div>
+ <div class="panel" style="margin-top:12px"><h2>Jouw huidige gewichten</h2><p class="muted">Pas ze aan tijdens je training. Je gegevens blijven op dit apparaat bewaard.</p><div id="weightHistory"></div></div>
+ <div class="panel"><h2>Trainingsgeschiedenis</h2><div id="history"></div><button class="smallbtn" id="clearHistory">Wis trainingsgeschiedenis</button></div>
+</section>
+<section id="foodView" class="hide">
+ <div class="panel"><h2>Voeding voor spiergroei</h2><p>Probeer genoeg te eten, verspreid over de dag, en neem bij elke maaltijd een eiwitbron.</p>
+ <div class="exercise"><b>🥚 Eiwitten</b><p class="muted">Eieren, yoghurt/kwark, kip, tonijn, bonen of linzen.</p></div>
+ <div class="exercise"><b>🍚 Energie</b><p class="muted">Rijst, pasta, aardappelen, brood en havermout helpen je genoeg energie binnen te krijgen.</p></div>
+ <div class="exercise"><b>🥜 Extra calorieën</b><p class="muted">Pindakaas, noten, olijfolie en volle yoghurt kunnen helpen als je moeilijk aankomt.</p></div>
+ <p class="notice">Je hoeft geen supplementen te nemen om te beginnen. Bouw je training rustig op en eet gevarieerd.</p></div>
+</section>
+<script>
+const plan = [
+ {day:"Maandag",focus:"Borst, schouders & triceps",ex:[["Chest press","3 × 8–12"],["Shoulder press","2 × 10–12"],["Dumbbell curls","2 × 10–12"],["Triceps pushdown","2 × 10–12"]]},
+ {day:"Dinsdag",focus:"Rug, biceps & onderarmen",ex:[["Lat pulldown","3 × 10–12"],["Seated row","3 × 10–12"],["Hammer curls","2 × 10–12"],["Wrist curls","2 × 12–15"],["Reverse wrist curls","2 × 12–15"]]},
+ {day:"Donderdag",focus:"Benen & buik",ex:[["Leg press","3 × 10–12"],["Seated leg curl","3 × 10–12"],["Leg extension","2 × 10–12"],["Calf raises","3 × 12–15"],["Plank","3 × 20–30 sec"]]},
+ {day:"Zaterdag",focus:"Full body & armen",ex:[["Incline chest press","2 × 10–12"],["Lat pulldown","2 × 10–12"],["Leg press","2 × 10–12"],["Hammer curls","2 × 10–12"],["Triceps pushdown","2 × 10–12"]]}
+];
+const initialWeights={"Dumbbell curls":8,"Hammer curls":8,"Triceps pushdown":11,"Wrist curls":6};
+let state=JSON.parse(localStorage.getItem("gymlog-v1")||"null")||{weights:initialWeights,checks:{},history:[]};
+let selected=0;
+function save(){localStorage.setItem("gymlog-v1",JSON.stringify(state))}
+function safe(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function tabs(){document.getElementById("tabs").innerHTML=plan.map((p,i)=>`<button class="tab ${selected===i?'active':''}" data-day="${i}">${p.day}</button>`).join("")+`<button class="tab" id="progressTab">Progressie</button><button class="tab" id="foodTab">Voeding</button>`;document.querySelectorAll("[data-day]").forEach(b=>b.onclick=()=>{selected=+b.dataset.day;showWorkout()});document.getElementById("progressTab").onclick=showProgress;document.getElementById("foodTab").onclick=showFood}
+function showWorkout(){document.getElementById("workout").classList.remove("hide");document.getElementById("progressView").classList.add("hide");document.getElementById("foodView").classList.add("hide");tabs();let p=plan[selected],done=0;let cards=p.ex.map((e,i)=>{let key=selected+"-"+i,checked=!!state.checks[key];if(checked)done++;let w=state.weights[e[0]]??"";return `<div class="exercise"><div class="row"><div><div class="exname">${safe(e[0])}</div><div class="sets">${e[1]}</div></div><label class="done"><input type="checkbox" data-check="${key}" ${checked?"checked":""}> Klaar</label></div><div class="inputs"><label>Gewicht (kg)<input type="number" min="0" step="0.5" inputmode="decimal" placeholder="—" data-weight="${safe(e[0])}" value="${w}"></label></div></div>`}).join("");document.getElementById("workout").innerHTML=`<div class="panel"><div class="muted">${p.day.toUpperCase()}</div><h2 class="daytitle">${p.focus}</h2><div class="muted">${done} van ${p.ex.length} oefeningen klaar</div><div class="progress"><div class="bar" style="width:${done/p.ex.length*100}%"></div></div>${cards}<button class="primary" id="finish">Training opslaan</button></div><p class="notice">Rust 60–120 seconden tussen sets. Kies een gewicht waarmee je de beweging netjes uitvoert.</p>`;document.querySelectorAll("[data-check]").forEach(c=>c.onchange=()=>{state.checks[c.dataset.check]=c.checked;save();showWorkout()});document.querySelectorAll("[data-weight]").forEach(inp=>inp.onchange=()=>{state.weights[inp.dataset.weight]=inp.value===""?"":Number(inp.value);save()});document.getElementById("finish").onclick=()=>{let count=p.ex.filter((e,i)=>state.checks[selected+"-"+i]).length;state.history.unshift({day:p.day,date:new Date().toLocaleDateString("nl-NL"),count,total:p.ex.length,weights:{...state.weights}});state.checks={};save();alert("Training opgeslagen, lekker bezig! 💪");showWorkout()}}
+function showProgress(){document.getElementById("workout").classList.add("hide");document.getElementById("progressView").classList.remove("hide");document.getElementById("foodView").classList.add("hide");tabs();document.getElementById("workoutsCount").textContent=state.history.length;document.getElementById("checksCount").textContent=state.history.reduce((a,h)=>a+h.count,0);document.getElementById("weightHistory").innerHTML=Object.entries(state.weights).map(([n,w])=>`<div class="historyitem row"><span>${safe(n)}</span><b>${w===""?"—":w+" kg"}</b></div>`).join("");document.getElementById("history").innerHTML=state.history.length?state.history.map(h=>`<div class="historyitem row"><div><b>${safe(h.day)}</b><div class="muted">${safe(h.date)}</div></div><span>${h.count}/${h.total} oefeningen</span></div>`).join(""):"<p class='muted'>Je opgeslagen trainingen verschijnen hier.</p>";document.getElementById("clearHistory").onclick=()=>{if(confirm("Weet je zeker dat je de geschiedenis wilt wissen?")){state.history=[];save();showProgress()}}}
+function showFood(){document.getElementById("workout").classList.add("hide");document.getElementById("progressView").classList.add("hide");document.getElementById("foodView").classList.remove("hide");tabs()}
+showWorkout();
+if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+</script>
+</body></html>
